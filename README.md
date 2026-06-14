@@ -26,13 +26,9 @@ The static site is generated in `dist/`.
 For a project site, the workflow sets:
 
 ```bash
-ASTRO_SITE=https://<username>.github.io
-ASTRO_BASE=/<repository-name>
+ASTRO_SITE=https://Aaron-Hsieh-0129.github.io
+ASTRO_BASE=/personal-website
 ```
-
-For this repository name, use `/personal-website`.
-
-For a user site named `<username>.github.io`, set `ASTRO_BASE=/` in the workflow or remove the `ASTRO_BASE` environment variable.
 
 ## Content Editing
 
