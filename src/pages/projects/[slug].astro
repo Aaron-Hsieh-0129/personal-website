@@ -1,0 +1,17 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+export function getStaticPaths() {
+  return [];
+}
+---
+
+<BaseLayout title="Project details hidden" description="Project details are hidden from the public site.">
+  <section class="page-title">
+    <div class="narrow">
+      <p class="eyebrow">Hidden</p>
+      <h1>Project details are hidden</h1>
+      <p class="lead">This route is intentionally not published.</p>
+    </div>
+  </section>
+</BaseLayout>

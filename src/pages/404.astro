@@ -1,0 +1,19 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const internalUrl = (path: string) => `${base}${path}`;
+---
+
+<BaseLayout title="Page Not Found">
+  <section class="page-title">
+    <div class="narrow">
+      <p class="eyebrow">404</p>
+      <h1>Page not found</h1>
+      <p class="lead">The page you requested is not available.</p>
+      <div class="button-row">
+        <a class="button secondary" href={internalUrl("/")}>Return home</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,19 @@
+{
+  "name": "aaron-hsieh-personal-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.2",
+    "astro": "^6.4.6",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "markdownlint": "^0.41.0"
+  }
+}

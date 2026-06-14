@@ -1,0 +1,31 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import TagList from "@components/TagList.astro";
+import { skills } from "@data/skills";
+---
+
+<BaseLayout title="Research Workflow and Technical Skills" description="Research workflow and technical skills in atmospheric modeling, GPU/HPC development, scientific data, model physics, and verification.">
+  <section class="page-title">
+    <div class="container">
+      <p class="eyebrow">Research workflow</p>
+      <h1>Technical skills by research relevance</h1>
+      <p class="lead">
+        My work combines atmospheric model development, model-physics integration, verification workflows, and high-performance scientific computing.
+      </p>
+    </div>
+  </section>
+  <section class="section compact">
+    <div class="container">
+      <div class="skill-table">
+        {
+          skills.map((group) => (
+            <div class="skill-row">
+              <strong>{group.category}</strong>
+              <TagList tags={group.items} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

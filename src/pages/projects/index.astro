@@ -1,0 +1,21 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ProjectCard from "@components/ProjectCard.astro";
+import { projects } from "@data/projects";
+---
+
+<BaseLayout title="Selected Projects" description="Selected atmospheric modeling, GPU/HPC, numerical methods, and geophysical data analysis projects.">
+  <section class="page-title">
+    <div class="container">
+      <p class="eyebrow">Selected projects</p>
+      <h1>Atmospheric modeling and geophysical data projects</h1>
+    </div>
+  </section>
+  <section class="section compact">
+    <div class="container">
+      <div class="grid two">
+        {projects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import LiteYouTube from "@components/LiteYouTube.astro";
+import { simulationCases, simulationGroups } from "@data/simulations";
+---
+
+<BaseLayout title="Simulations" description="Simulation gallery for cloud-resolving, coupled, cubed-sphere, and terrain-focused model experiments.">
+  <section class="page-title">
+    <div class="container">
+      <p class="eyebrow">Simulation gallery</p>
+      <h1>Model experiments</h1>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <div class="gallery-nav" aria-label="Simulation categories">
+        {simulationGroups.map((group) => <a href={`#${group.toLowerCase().replaceAll(" ", "-").replaceAll("/", "")}`}>{group}</a>)}
+      </div>
+
+      {
+        simulationGroups.map((group) => (
+          <section class="simulation-group" id={group.toLowerCase().replaceAll(" ", "-").replaceAll("/", "")}>
+            <div class="section-header">
+              <p class="eyebrow">{group}</p>
+              <h2>{group}</h2>
+            </div>
+            <div class="simulation-grid">
+              {simulationCases
+                .filter((item) => item.group === group)
+                .map((item) => (
+                  <article class="simulation-card">
+                    <LiteYouTube embedUrl={item.embedUrl} title={item.title} />
+                    <div class="simulation-copy">
+                      <p class="project-status">{item.model}</p>
+                      <h3>{item.title}</h3>
+                      <p>{item.note}</p>
+                    </div>
+                  </article>
+                ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

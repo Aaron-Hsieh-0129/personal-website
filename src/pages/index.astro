@@ -1,0 +1,93 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import LiteYouTube from "@components/LiteYouTube.astro";
+import ProjectCard from "@components/ProjectCard.astro";
+import { profile } from "@data/profile";
+import { projects } from "@data/projects";
+import { simulationCases } from "@data/simulations";
+
+const featuredProjects = projects.slice(0, 5);
+const heroCases = simulationCases.slice(0, 8);
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const internalUrl = (path: string) => `${base}${path}`;
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Atmospheric science and high-performance computation</p>
+        <h1>{profile.name}</h1>
+        <p class="subtitle">{profile.subtitle}</p>
+        <p class="lead summary">I develop atmospheric models from numerical formulation to GPU/HPC implementation, verification, and scientific analysis.</p>
+        <div class="button-row" aria-label="Primary links">
+          <a class="button" href={internalUrl("/simulations/")}>Simulations</a>
+          <a class="button secondary" href={internalUrl("/projects/")}>Projects</a>
+          <a class="button secondary" href={profile.email} aria-label="Email Chin-Wei Aaron Hsieh">Email</a>
+        </div>
+      </div>
+      <div class="figure-panel hero-media">
+        <LiteYouTube id="hero-simulation" embedUrl={heroCases[0].embedUrl} title={heroCases[0].title} />
+        <p class="figure-caption" id="hero-simulation-caption">{heroCases[0].title}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section compact" id="research-direction">
+    <div class="container">
+      <div class="section-header">
+        <p class="eyebrow">Research direction</p>
+        <h2>Building atmospheric models for convection, coupling, and terrain-aware simulations</h2>
+        <p class="lead">I build research models from scratch and use GPU/HPC methods to make them scientifically useful. My work connects cloud-resolving dynamics, land-atmosphere coupling, radiation and microphysics integration, complex terrain, and convection-circulation interaction.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" id="selected-projects">
+    <div class="container">
+      <div class="section-header">
+        <p class="eyebrow">Selected projects</p>
+        <h2>Atmospheric modeling portfolio</h2>
+      </div>
+      <div class="grid two">
+        {featuredProjects.map((project) => <ProjectCard project={project} />)}
+      </div>
+      <div class="button-row">
+        <a class="button secondary" href={internalUrl("/projects/")}>View all selected projects</a>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ cases: heroCases }}>
+    const getYouTubeId = (url) => {
+      try {
+        const parsed = new URL(url);
+        const parts = parsed.pathname.split("/");
+        const embedIndex = parts.indexOf("embed");
+        return embedIndex >= 0 ? parts[embedIndex + 1] : "";
+      } catch {
+        return "";
+      }
+    };
+
+    const pick = cases[Math.floor(Math.random() * cases.length)];
+    const wrapper = document.getElementById("hero-simulation");
+    const caption = document.getElementById("hero-simulation-caption");
+    if (wrapper && caption && pick) {
+      wrapper.dataset.videoSrc = `${pick.embedUrl}${pick.embedUrl.includes("?") ? "&" : "?"}autoplay=1`;
+      wrapper.dataset.videoTitle = pick.title;
+      caption.textContent = pick.title;
+
+      const thumbnail = wrapper.querySelector("img");
+      const button = wrapper.querySelector("button");
+      const videoId = getYouTubeId(pick.embedUrl);
+      if (thumbnail && videoId) {
+        thumbnail.src = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+        thumbnail.dataset.fallbackSrc = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+      }
+      if (button) {
+        button.setAttribute("aria-label", `Play ${pick.title}`);
+      }
+    }
+  </script>
+</BaseLayout>

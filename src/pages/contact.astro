@@ -1,0 +1,46 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { profile } from "@data/profile";
+
+const contactLinks = [
+  { label: "Email", value: profile.emailLabel, href: profile.email, placeholder: profile.email.includes("example.com") },
+  { label: "GitHub", value: "github.com/Aaron-Hsieh-0129", href: profile.githubUrl, placeholder: false },
+  { label: "ORCID", value: profile.orcidLabel, href: profile.orcidUrl, placeholder: false },
+  { label: "CV", value: "Available on request", href: "", placeholder: true }
+];
+---
+
+<BaseLayout title="Contact" description="Contact links for Chin-Wei Aaron Hsieh.">
+  <section class="page-title">
+    <div class="narrow">
+      <p class="eyebrow">Contact</p>
+      <h1>Contact and profiles</h1>
+      <p class="lead">
+        Email, public code repositories, and academic profile identifiers.
+      </p>
+    </div>
+  </section>
+  <section class="section compact">
+    <div class="narrow placeholder-list">
+      {
+        contactLinks.map((item) => (
+          <div class="placeholder-item">
+            <h2>{item.label}</h2>
+            {
+              item.href ? (
+                <p>
+                  <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined} aria-label={`${item.label}: ${item.value}`}>
+                    {item.value}
+                  </a>
+                  {item.placeholder && <span class="muted"> - placeholder</span>}
+                </p>
+              ) : (
+                <p class="muted">{item.value}</p>
+              )
+            }
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

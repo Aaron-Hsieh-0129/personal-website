@@ -1,0 +1,84 @@
+---
+import "@styles/global.css";
+import { profile } from "@data/profile";
+
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const {
+  title = profile.name,
+  description = profile.summary
+} = Astro.props as Props;
+
+const pageTitle = title === profile.name ? title : `${title} | ${profile.name}`;
+const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const internalUrl = (path: string) => `${base}${path}`;
+const siteUrl = Astro.site ?? new URL("https://aaron-hsieh-0129.github.io");
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const imageUrl = new URL(`${base}/og-card.svg`, siteUrl).toString();
+
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/simulations/", label: "Simulations" },
+  { href: "/projects/", label: "Projects" },
+  { href: "/cv/", label: "CV" },
+  { href: "/contact/", label: "Contact" }
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href={internalUrl("/favicon.svg")} type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <a class="skip-link" href="#main">Skip to content</a>
+      <header class="site-header">
+        <nav class="nav" aria-label="Primary navigation">
+          <a class="brand" href={internalUrl("/")}>{profile.name}</a>
+          <div class="nav-links">
+            {
+              navItems.map((item) => {
+                const pagePath = currentPath.replace(base, "") || "/";
+                const isCurrent = item.href === "/" ? pagePath === "/" : pagePath.startsWith(item.href);
+                return (
+                  <a href={internalUrl(item.href)} aria-current={isCurrent ? "page" : undefined}>
+                    {item.label}
+                  </a>
+                );
+              })
+            }
+          </div>
+        </nav>
+      </header>
+      <main id="main">
+        <slot />
+      </main>
+      <footer class="site-footer">
+        <div class="container footer-inner">
+          <p>&copy; {new Date().getFullYear()} {profile.name}</p>
+          <p>Atmospheric science and high-performance computation.</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { cvSections } from "@data/cv";
+---
+
+<BaseLayout title="CV" description="Curriculum vitae for Chin-Wei Aaron Hsieh.">
+  <section class="page-title">
+    <div class="narrow">
+      <p class="eyebrow">CV</p>
+      <h1>Curriculum Vitae</h1>
+      <p class="lead">
+        Selected background and experience summary.
+      </p>
+    </div>
+  </section>
+  <section class="section compact">
+    <div class="narrow placeholder-list">
+      {
+        cvSections.map((section) => (
+          <section class="card" aria-labelledby={`${section.title.toLowerCase().replaceAll(" ", "-")}-heading`}>
+            <div class="card-body">
+              <h2 id={`${section.title.toLowerCase().replaceAll(" ", "-")}-heading`}>{section.title}</h2>
+              <ul>
+                {section.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+type Props = {
+  embedUrl: string;
+  title: string;
+  id?: string;
+};
+
+const { embedUrl, title, id } = Astro.props;
+const playerUrl = `${embedUrl}${embedUrl.includes("?") ? "&" : "?"}autoplay=1`;
+
+const getYouTubeId = (url: string) => {
+  try {
+    const parsed = new URL(url);
+    const parts = parsed.pathname.split("/");
+    const embedIndex = parts.indexOf("embed");
+    return embedIndex >= 0 ? parts[embedIndex + 1] : "";
+  } catch {
+    return "";
+  }
+};
+
+const videoId = getYouTubeId(embedUrl);
+const thumbnail = videoId ? `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg` : "";
+const fallbackThumbnail = videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : "";
+---
+
+<div class="video-frame lite-video" id={id} data-lite-video data-video-src={playerUrl} data-video-title={title}>
+  <button class="lite-video-button" type="button" data-lite-video-button aria-label={`Play ${title}`}>
+    {thumbnail && <img src={thumbnail} data-fallback-src={fallbackThumbnail} alt="" loading="lazy" decoding="async" />}
+    <span class="play-button" aria-hidden="true">Play</span>
+  </button>
+</div>
+
+<script>
+  declare global {
+    interface Window {
+      __liteVideoBound?: boolean;
+    }
+  }
+
+  if (!window.__liteVideoBound) {
+    window.__liteVideoBound = true;
+
+    document.addEventListener("click", (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      const button = target?.closest("[data-lite-video-button]");
+      if (!button) return;
+
+      const wrapper = button.closest("[data-lite-video]");
+      if (!wrapper) return;
+
+      const src = wrapper.getAttribute("data-video-src");
+      const title = wrapper.getAttribute("data-video-title") || "Simulation video";
+      if (!src) return;
+
+      const iframe = document.createElement("iframe");
+      iframe.src = src;
+      iframe.title = title;
+      iframe.loading = "lazy";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+      wrapper.replaceChildren(iframe);
+      iframe.focus();
+    });
+
+    document.addEventListener(
+      "error",
+      (event) => {
+        const image = event.target instanceof HTMLImageElement ? event.target : null;
+        const fallback = image?.dataset.fallbackSrc;
+        if (!image || !fallback || image.src === fallback) return;
+        image.src = fallback;
+      },
+      true
+    );
+  }
+</script>
