@@ -9,6 +9,7 @@ export type Project = {
   title: string;
   shortTitle?: string;
   status: string;
+  highlights?: string[];
   preprint?: {
     citation: string;
     doi: string;
@@ -29,32 +30,43 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "gpuvvm",
-    title: "GPUVVM — GPU-accelerated Vector Vorticity Model",
-    shortTitle: "GPUVVM",
-    status: "Primary current research",
+    slug: "vvmex",
+    title: "VVMex — GPU-capable Vector Vorticity Cloud-Resolving Model",
+    shortTitle: "VVMex",
+    status: "VVMex v1.0 · primary current research",
     summary:
-      "A cloud-resolving model development project for idealized convection, model-physics coupling, and complex-topography tests.",
+      "A clean-start, modular C++/Kokkos redesign of the Fortran Vector Vorticity Model for GPU-resident, full-physics large-eddy simulations on heterogeneous HPC systems.",
     problem:
-      "Cloud-resolving simulations become expensive when terrain, surface exchange, microphysics, and radiation are included.",
+      "Full-physics large-eddy simulations must scale dynamics, physics, halo exchange, and output together while preserving the numerical and physical behavior of the original VVM.",
     approach:
-      "I am developing a Kokkos/C++ Vector Vorticity Model with MPI, CUDA/Kokkos execution, ADIOS2/NetCDF I/O, P3 microphysics, RRTMGP radiation, Noah LSM, and topography support.",
+      "I developed a modular C++17/Kokkos framework with MPI domain decomposition, a GPU-resident time-stepping workflow, asynchronous ADIOS2 output, LES-adapted EAMxx P3 microphysics, RRTMGP radiation, and zero-copy coupling to the OpenACC Noah land surface model.",
     readiness:
-      "This shows preparation for atmospheric-model research that needs numerical implementation, physical-process coupling, diagnostics, and GPU/HPC tools.",
+      "VVMex is verified with isolated operators and a terrain-induced mountain-wave case, then validated through heterogeneous diurnal circulations, homogeneous boundary layers, and a 40-day radiative-convective-equilibrium simulation. It achieves 4.0×–24.4× end-to-end speedups on 8–64 NVIDIA H200 GPUs relative to the Fortran VVM baseline on 1024 Intel Xeon Platinum 8480+ CPU cores.",
+    highlights: [
+      "Modular, GPU-resident C++17/Kokkos architecture with MPI and asynchronous ADIOS2 I/O",
+      "LES-adapted EAMxx P3, RRTMGP radiation, and zero-copy OpenACC Noah LSM coupling",
+      "Hierarchical verification and validation from dry dynamics to coupled diurnal and 40-day RCE cases",
+      "4.0×–24.4× end-to-end speedup on 8–64 NVIDIA H200 GPUs versus the 1024-core Fortran VVM baseline",
+    ],
     components: [
-      "Vector Vorticity Model dynamics",
+      "modular Vector Vorticity Model dynamics",
+      "GPU-resident time stepping",
       "MPI domain decomposition",
       "Kokkos/CUDA execution",
-      "ADIOS2 and NetCDF I/O",
-      "P3 microphysics",
+      "asynchronous ADIOS2 I/O",
+      "LES-adapted EAMxx P3 microphysics",
       "RRTMGP radiation",
-      "Noah land surface coupling",
-      "topography support",
-      "regression tests",
+      "zero-copy OpenACC Noah land surface coupling",
+      "immersed-boundary topography",
+      "hierarchical verification and validation",
+      "automated regression tests",
     ],
     tags: [
-      "cloud-resolving modeling",
+      "large-eddy simulation",
+      "cloud-resolving model",
       "VVM",
+      "GPU-resident workflow",
+      "performance portability",
       "complex topography",
       "land-atmosphere coupling",
       "P3 microphysics",
@@ -65,17 +77,16 @@ export const projects: Project[] = [
       "CUDA",
       "MPI",
       "ADIOS2",
-      "NetCDF",
     ],
     links: [
       {
-        label: "GPUVVM GitHub repository",
-        url: "https://github.com/Aaron-Hsieh-0129/VVM_GPU_CPP",
+        label: "VVMex GitHub repository",
+        url: "https://github.com/Aaron-Hsieh-0129/VVMex",
         kind: "code",
       },
       {
-        label: "GPUVVM documentation and simulation gallery",
-        url: "https://aaron-hsieh-0129.github.io/VVM_GPU_CPP/",
+        label: "VVMex documentation and simulation gallery",
+        url: "https://aaron-hsieh-0129.github.io/VVMex/",
         kind: "docs",
       },
     ],

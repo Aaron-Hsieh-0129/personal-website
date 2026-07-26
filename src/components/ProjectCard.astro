@@ -12,6 +12,13 @@ const { project } = Astro.props as { project: Project };
       <span class="project-status">{project.status}</span>
     </div>
     <p>{project.summary}</p>
+    {
+      project.highlights && (
+        <ul class="project-highlights">
+          {project.highlights.map((highlight) => <li>{highlight}</li>)}
+        </ul>
+      )
+    }
     <TagList tags={project.tags.slice(0, 5)} />
     {project.preprint && <p class="preprint-note">Preprint DOI: {project.preprint.doi}</p>}
     <div class="link-list" aria-label={`${project.title} links`}>

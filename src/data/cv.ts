@@ -7,50 +7,40 @@ export const cvSections: CvSection[] = [
   {
     title: "Education",
     items: [
-      "M.S. Atmospheric Sciences, National Taiwan University, 2025. Thesis: NextACC.",
-      "B.S. Atmospheric Sciences, National Taiwan University, 2024.",
-      "Exchange student, INAR, University of Helsinki, 2023-2024."
+      "M.S. in Atmospheric Sciences, National Taiwan University, 2025. Thesis: Next-Generation Adaptive Convection–Circulation Coupling Framework (NextACC).",
+      "Exchange student, Institute for Atmospheric and Earth System Research, University of Helsinki, 2023–2024.",
+      "B.S. in Atmospheric Sciences, National Taiwan University, 2024."
     ]
   },
   {
-    title: "Research focus",
+    title: "Research experience",
     items: [
-      "Cloud-resolving modeling, convection-circulation coupling, GPU-accelerated atmospheric models.",
-      "High-resolution Taiwan simulations, land-atmosphere coupling, microphysics and radiation integration.",
-      "Numerical model development with C++/Kokkos/CUDA/MPI and Python diagnostics."
+      "Research Assistant, National Taiwan University, 2025–present. Lead developer of VVMex, a modular GPU-capable redesign of the Vector Vorticity cloud-resolving Model, including its coupled physics and hierarchical validation framework.",
+      "Graduate research, 2024–2025. Developed NextACC, coupling a cubed-sphere shallow-water model with an array of two-dimensional VVMs to study convection–circulation interactions.",
+      "Undergraduate research, 2020–2021. Built two-dimensional anelastic and quasi-compressible atmospheric models in C++."
     ]
   },
   {
-    title: "Preprints / reports",
+    title: "Publications and preprints",
     items: [
-      "C.-W. Hsieh and C.-M. Wu. Next-Generation Adaptive Convection-Circulation Coupling Framework. ESSOAr Preprint, 2025. DOI: 10.22541/essoar.174051759.91277474. Listed as a preprint; not currently presented as a peer-reviewed publication."
-    ]
-  },
-  {
-    title: "Selected presentations",
-    items: [
-      "Next-Generation Adaptive Convection-Circulation Coupling Framework. University Allied Workshop 2025 (oral); Climate Hotspots in Action 2024 (poster)."
+      "C.-W. Hsieh, S.-Y. Tseng, and C.-M. Wu. “VVMex v1.0: A modular GPU-capable refactoring of the Vector Vorticity cloud-resolving Model (VVM) with LES-based hierarchical validation and performance analysis.” Under review at Geoscientific Model Development.",
+      "C.-W. Hsieh and C.-M. Wu. “Next-Generation Adaptive Convection–Circulation Coupling Framework.” ESS Open Archive preprint, 2025. DOI: 10.22541/essoar.174051759.91277474."
     ]
   },
   {
     title: "Awards",
     items: [
-      "Presidential Award, National Taiwan University, ranked top 2 for the academic year, 2023.",
-      "Dean's Award, National Taiwan University, ranked top 2 for the semester, 3x recipient, Spring 2021, Spring 2022, Spring 2023.",
-      "2nd Place, NTU-IBM Hackathon, developed a quantum algorithm using Qiskit for VLSI optimization, 2022."
+      "Dean's Award for Academic Excellence, National Taiwan University, 2023.",
+      "Presidential Award and three-time Dean's Award, National Taiwan University, 2021–2023.",
+      "Second Place, NTU–IBM Quantum Computing Hackathon, 2022."
     ]
   },
   {
-    title: "Teaching / coursework",
+    title: "Technical expertise",
     items: [
-      "Teaching Assistant, National Taiwan University, Jan. 2023 - June 2025. Led discussion sessions and evaluated assignments for Atmospheric Thermodynamics, Cloud Dynamics, Machine Learning, and Statistics."
-    ]
-  },
-  {
-    title: "Technical skills",
-    items: [
-      "Models and physics: VVM, cloud-resolving modeling, cubed-sphere shallow-water models, P3, RRTMGP, Noah LSM.",
-      "Computing and data: C/C++, Fortran, Python, CUDA, Kokkos, MPI, Slurm, NetCDF, HDF5, xarray."
+      "Model development: cloud-resolving and multiscale atmospheric models, Cartesian and cubed-sphere grids, physical parameterizations, and numerical solvers.",
+      "High-performance computing: C++, Fortran, Kokkos, CUDA, OpenACC, MPI, NCCL, profiling, and scalability analysis.",
+      "Scientific software and analysis: Python, automated testing, ADIOS2, NetCDF, HDF5, NumPy, xarray, Matplotlib, and PyTorch."
     ]
   }
 ];
