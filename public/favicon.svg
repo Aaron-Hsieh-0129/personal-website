@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CH">
-  <rect width="64" height="64" rx="10" fill="#0e3f45"/>
-  <path d="M12 44V20h6v9h11v-9h6v24h-6v-10H18v10h-6Z" fill="#f4faf8"/>
-  <path d="M41 44V20h6v24h-6Z" fill="#d6a06c"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Aaron Hsieh">
+  <rect width="64" height="64" rx="12" fill="#f8f7f4"/>
+  <path d="M26 30c-7-5-16-1-16 8 0 10 10 13 16 7m0-15v17m10-30v30m0-11c0-9 16-10 16 1v10" fill="none" stroke="#292b27" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="58" cy="46" r="3" fill="#ad462b"/>
 </svg>

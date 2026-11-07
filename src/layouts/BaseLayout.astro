@@ -1,6 +1,7 @@
 ---
 import "@styles/global.css";
 import { profile } from "@data/profile";
+import Icon from "@components/Icon.astro";
 
 type Props = {
   title?: string;
@@ -36,8 +37,9 @@ const navItems = [
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="preload" href={internalUrl("/fonts/dm-sans-variable.ttf")} as="font" type="font/ttf" crossorigin />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" href={internalUrl("/icon.png")} type="image/png" />
+    <link rel="icon" href={internalUrl("/favicon.svg")} type="image/svg+xml" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -54,15 +56,19 @@ const navItems = [
       <a class="skip-link" href="#main">Skip to content</a>
       <header class="site-header">
         <nav class="nav" aria-label="Primary navigation">
-          <a class="brand" href={internalUrl("/")}>{profile.name}</a>
-          <div class="nav-links">
+          <a class="brand" href={internalUrl("/")} aria-label={`${profile.name} — home`}>
+            <span class="brand-mark" aria-hidden="true">ah<span>.</span></span>
+            <span class="brand-name">Aaron Hsieh<span>Atmospheric scientist & model developer</span></span>
+          </a>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-links" hidden>Menu <span aria-hidden="true">+</span></button>
+          <div class="nav-links" id="primary-links">
             {
               navItems.map((item) => {
                 const pagePath = currentPath.replace(base, "") || "/";
                 const isCurrent = item.href === "/" ? pagePath === "/" : pagePath.startsWith(item.href);
                 return (
-                  <a href={internalUrl(item.href)} aria-current={isCurrent ? "page" : undefined}>
-                    {item.label}
+                  <a href={internalUrl(item.href)} class:list={[{ "nav-contact": item.href === "/contact/" }]} aria-current={isCurrent ? "page" : undefined}>
+                    {item.label}{item.href === "/contact/" && <Icon name="external" size={15} />}
                   </a>
                 );
               })
@@ -74,11 +80,42 @@ const navItems = [
         <slot />
       </main>
       <footer class="site-footer">
-        <div class="container footer-inner">
-          <p>&copy; {new Date().getFullYear()} {profile.name}</p>
-          <p>Atmospheric science and high-performance computation.</p>
+        <div class="container">
+          <div class="footer-top">
+            <div><h2>Contact</h2><p class="muted">Atmospheric modeling and high-performance scientific computing.</p></div>
+            <a class="button" href={profile.email}>Get in touch <Icon name="external" size={18} /></a>
+          </div>
+          <div class="footer-inner">
+            <p>&copy; {new Date().getFullYear()} {profile.name}</p>
+            <div class="footer-links"><a href={profile.githubUrl} target="_blank" rel="noreferrer">GitHub <Icon name="external" size={13} /></a><a href={profile.orcidUrl} target="_blank" rel="noreferrer">ORCID <Icon name="external" size={13} /></a><a href={internalUrl("/workflow/")}>Research workflow <Icon size={13} /></a></div>
+          </div>
         </div>
       </footer>
     </div>
   </body>
 </html>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const links = document.getElementById("primary-links");
+  if (toggle && links) {
+    toggle.hidden = false;
+    const closeMenu = () => toggle.setAttribute("aria-expanded", "false");
+    toggle.addEventListener("click", () => {
+      toggle.setAttribute("aria-expanded", String(toggle.getAttribute("aria-expanded") !== "true"));
+    });
+    links.addEventListener("click", (event) => {
+      if (event.target instanceof Element && event.target.closest("a")) closeMenu();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+    document.addEventListener("click", (event) => {
+      if (event.target instanceof Element && !event.target.closest(".nav")) closeMenu();
+    });
+    matchMedia("(min-width: 761px)").addEventListener("change", closeMenu);
+  }
+</script>

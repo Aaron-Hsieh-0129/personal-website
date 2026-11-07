@@ -1,10 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Chin-Wei Aaron Hsieh academic portfolio">
-  <rect width="1200" height="630" fill="#f7f8f6"/>
-  <rect x="72" y="72" width="1056" height="486" rx="18" fill="#0e3f45"/>
-  <path d="M72 420 C220 340 325 465 470 392 C620 316 700 180 880 244 C990 283 1048 372 1128 322 L1128 558 L72 558 Z" fill="#195d63"/>
-  <path d="M72 482 C245 430 362 515 510 462 C668 405 760 322 930 356 C1036 378 1086 434 1128 410 L1128 558 L72 558 Z" fill="#8a4f28" opacity="0.72"/>
-  <text x="112" y="190" fill="#f4faf8" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700">Chin-Wei (Aaron) Hsieh</text>
-  <text x="112" y="262" fill="#d9ece8" font-family="Arial, Helvetica, sans-serif" font-size="34">Atmospheric Science | Cloud-Resolving Modeling</text>
-  <text x="112" y="316" fill="#d9ece8" font-family="Arial, Helvetica, sans-serif" font-size="34">High-Performance Computation</text>
-  <text x="112" y="440" fill="#f4faf8" font-family="Arial, Helvetica, sans-serif" font-size="28">Building atmospheric models from formulation to GPU/HPC implementation.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Chin-Wei Aaron Hsieh — Atmospheric science and scientific computing">
+  <rect width="1200" height="630" fill="#f8f7f4"/>
+  <path d="M72 104h1056M72 546h1056" stroke="#dddfd5"/>
+  <text x="72" y="78" fill="#292b27" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="-3">ah<tspan fill="#ad462b">.</tspan></text>
+  <text x="150" y="74" fill="#686b63" font-family="Arial, Helvetica, sans-serif" font-size="17">Chin-Wei (Aaron) Hsieh</text>
+  <text x="72" y="167" fill="#ad462b" font-family="Arial, Helvetica, sans-serif" font-size="13" letter-spacing="3">ATMOSPHERIC SCIENCE &amp; SCIENTIFIC COMPUTING</text>
+  <text x="72" y="298" fill="#292b27" font-family="Arial, Helvetica, sans-serif" font-size="95" letter-spacing="-5">Chin-Wei</text>
+  <text x="72" y="409" fill="#ad462b" font-family="Georgia, serif" font-size="115" font-style="italic" letter-spacing="-4">(Aaron) Hsieh</text>
+  <text x="76" y="490" fill="#686b63" font-family="Arial, Helvetica, sans-serif" font-size="22">Numerical models. Cloud-scale physics. High-performance computing.</text>
+  <text x="76" y="585" fill="#686b63" font-family="Arial, Helvetica, sans-serif" font-size="16">National Taiwan University · Atmospheric Sciences</text>
+  <g fill="none" stroke="#b7bfa8" stroke-width="1.2" opacity="0.6">
+    <ellipse cx="980" cy="310" rx="145" ry="175"/>
+    <ellipse cx="980" cy="310" rx="100" ry="175"/>
+    <ellipse cx="980" cy="310" rx="42" ry="175"/>
+    <ellipse cx="980" cy="310" rx="145" ry="63"/>
+    <ellipse cx="980" cy="310" rx="145" ry="120"/>
+    <path d="M835 310h290M980 135v350"/>
+  </g>
 </svg>

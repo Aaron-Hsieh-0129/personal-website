@@ -1,4 +1,5 @@
 export type SimulationGroup =
+  | "Tropical Band VVMex"
   | "VVMex"
   | "Cubed-Sphere Shallow Water"
   | "2D VVM / QCM";
@@ -9,13 +10,31 @@ export type SimulationCase = {
   group: SimulationGroup;
   model: string;
   embedUrl: string;
-  source: "VVMex gallery" | "models-web";
+  source: "VVMex gallery" | "models-web" | "YouTube";
   note: string;
 };
 
 // Add new cases here. Keep the list ordered newest project -> older project.
 // Prefer stable online embeds, e.g. YouTube embed URLs from published docs.
 export const simulationCases: SimulationCase[] = [
+  {
+    id: "tropical-band-sst",
+    title: "Tropical waves with an SST perturbation",
+    group: "Tropical Band VVMex",
+    model: "Tropical-band VVMex · latitude–longitude grid",
+    embedUrl: "https://www.youtube.com/embed/PJ4y81O4JG4",
+    source: "YouTube",
+    note: "A tropical-band VVM experiment on a latitude–longitude grid, using a fixed sea surface temperature (SST) background and an SST perturbation to generate tropical waves.",
+  },
+  {
+    id: "tropical-band-maritime-continent",
+    title: "Tropical waves with the Maritime Continent",
+    group: "Tropical Band VVMex",
+    model: "Tropical-band VVMex · Maritime Continent",
+    embedUrl: "https://www.youtube.com/embed/SG-qGjupSk0",
+    source: "YouTube",
+    note: "A similar tropical-band experiment, replacing the idealized SST perturbation with a realistic land configuration that includes the Maritime Continent.",
+  },
   {
     id: "vvmex-taiwan",
     title: "TaiwanVVM — topography, land, and physics",
@@ -201,3 +220,10 @@ export const simulationCases: SimulationCase[] = [
 export const simulationGroups = Array.from(
   new Set(simulationCases.map((item) => item.group)),
 );
+
+export const tropicalBandCases = simulationCases.filter(
+  (item) => item.group === "Tropical Band VVMex",
+);
+
+export const simulationGroupId = (group: string) =>
+  group.toLowerCase().replaceAll(" ", "-").replaceAll("/", "");

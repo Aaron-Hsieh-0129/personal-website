@@ -1,0 +1,18 @@
+---
+import LiteYouTube from "./LiteYouTube.astro";
+import type { SimulationCase } from "@data/simulations";
+import Icon from "./Icon.astro";
+
+const { item, index } = Astro.props as { item: SimulationCase; index?: number };
+const videoId = new URL(item.embedUrl).pathname.split("/").pop();
+---
+
+<article class="simulation-card" data-simulation data-search={`${item.title} ${item.group} ${item.model} ${item.note}`.toLowerCase()}>
+  <LiteYouTube embedUrl={item.embedUrl} title={item.title} />
+  <div class="simulation-copy">
+    <div class="simulation-meta"><p class="project-status">{item.model}</p>{index !== undefined && <span class="mono-label">{String(index).padStart(2, "0")}</span>}</div>
+    <h3>{item.title}</h3>
+    <p class="simulation-note">{item.note}</p>
+    <a class="video-source" href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noreferrer" aria-label={`Watch ${item.title} on YouTube (opens in a new tab)`}>Watch on YouTube <Icon name="external" size={15} /></a>
+  </div>
+</article>

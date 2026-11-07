@@ -7,14 +7,16 @@ import { projects } from "@data/projects";
 <BaseLayout title="Selected Projects" description="Selected atmospheric modeling, GPU/HPC, numerical methods, and geophysical data analysis projects.">
   <section class="page-title">
     <div class="container">
-      <p class="eyebrow">Selected projects</p>
-      <h1>Atmospheric modeling and geophysical data projects</h1>
+      <p class="eyebrow">Atmospheric modeling & scientific computing</p>
+      <h1>Projects</h1>
+      <p class="lead">A collection of atmospheric models, numerical methods, and analysis tools — from cloud-scale dynamics to multiscale circulation.</p>
+      <p class="page-title-meta">{projects.length} projects · Atmospheric science & scientific computing</p>
     </div>
   </section>
   <section class="section compact">
     <div class="container">
       <div class="grid two">
-        {projects.map((project) => <ProjectCard project={project} />)}
+        {projects.map((project, index) => <ProjectCard project={project} index={index + 1} />)}
       </div>
     </div>
   </section>

@@ -3,9 +3,10 @@ type Props = {
   embedUrl: string;
   title: string;
   id?: string;
+  priority?: boolean;
 };
 
-const { embedUrl, title, id } = Astro.props;
+const { embedUrl, title, id, priority = false } = Astro.props;
 const playerUrl = `${embedUrl}${embedUrl.includes("?") ? "&" : "?"}autoplay=1`;
 
 const getYouTubeId = (url: string) => {
@@ -20,14 +21,20 @@ const getYouTubeId = (url: string) => {
 };
 
 const videoId = getYouTubeId(embedUrl);
-const thumbnail = videoId ? `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg` : "";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const localPosters: Record<string, string> = {
+  PJ4y81O4JG4: "tropical-band-sst.jpg",
+  "SG-qGjupSk0": "tropical-band-maritime-continent.jpg",
+  "6wFKTAkBJKw": "taiwan-vvm-preview.jpg",
+};
+const thumbnail = localPosters[videoId] ? `${base}/assets/${localPosters[videoId]}` : videoId ? `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg` : "";
 const fallbackThumbnail = videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : "";
 ---
 
 <div class="video-frame lite-video" id={id} data-lite-video data-video-src={playerUrl} data-video-title={title}>
   <button class="lite-video-button" type="button" data-lite-video-button aria-label={`Play ${title}`}>
-    {thumbnail && <img src={thumbnail} data-fallback-src={fallbackThumbnail} alt="" loading="lazy" decoding="async" />}
-    <span class="play-button" aria-hidden="true">Play</span>
+    {thumbnail && <img src={thumbnail} data-fallback-src={fallbackThumbnail} alt="" loading={priority ? "eager" : "lazy"} fetchpriority={priority ? "high" : "auto"} decoding="async" />}
+    <span class="play-button" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="m5 3 8 5-8 5V3Z" /></svg><span>Play simulation</span></span>
   </button>
 </div>
 
@@ -54,6 +61,12 @@ const fallbackThumbnail = videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault
       if (!src) return;
 
       const iframe = document.createElement("iframe");
+      if (!wrapper.parentElement?.querySelector("template[data-video-poster]")) {
+        const poster = document.createElement("template");
+        poster.dataset.videoPoster = "";
+        poster.content.append(button.cloneNode(true));
+        wrapper.after(poster);
+      }
       iframe.src = src;
       iframe.title = title;
       iframe.loading = "lazy";

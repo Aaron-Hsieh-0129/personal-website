@@ -1,47 +1,75 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import LiteYouTube from "@components/LiteYouTube.astro";
-import { simulationCases, simulationGroups } from "@data/simulations";
+import SimulationCard from "@components/SimulationCard.astro";
+import { simulationCases, simulationGroups, simulationGroupId } from "@data/simulations";
 ---
 
-<BaseLayout title="Simulations" description="Simulation gallery for cloud-resolving, coupled, cubed-sphere, and terrain-focused model experiments.">
+<BaseLayout title="Simulations" description="Explore tropical-band VVM experiments, Maritime Continent simulations, cloud-resolving models, and dynamical-core benchmarks.">
   <section class="page-title">
     <div class="container">
-      <p class="eyebrow">Simulation gallery</p>
-      <h1>Model experiments</h1>
+      <p class="eyebrow">Simulation gallery · {simulationCases.length} experiments</p>
+      <h1>Simulations</h1>
+      <p class="lead">From tropical waves and land–atmosphere interactions to idealized dynamics. Explore the experiments, their configurations, and the models behind them.</p>
     </div>
   </section>
 
   <section class="section compact">
     <div class="container">
-      <div class="gallery-nav" aria-label="Simulation categories">
-        {simulationGroups.map((group) => <a href={`#${group.toLowerCase().replaceAll(" ", "-").replaceAll("/", "")}`}>{group}</a>)}
+      <nav class="gallery-nav" aria-label="Simulation categories">
+        {simulationGroups.map((group) => <a href={`#${simulationGroupId(group)}`}>{group}<span class="category-count">{simulationCases.filter((item) => item.group === group).length}</span></a>)}
+      </nav>
+      <div class="gallery-search" id="gallery-search" hidden>
+        <label for="simulation-search">Find an experiment</label>
+        <input id="simulation-search" type="search" placeholder="Search models, SST, terrain, advection…" aria-controls="simulation-results" />
+        <p class="muted" id="search-count" role="status" aria-live="polite" aria-atomic="true">Showing all {simulationCases.length} experiments</p>
       </div>
-
-      {
-        simulationGroups.map((group) => (
-          <section class="simulation-group" id={group.toLowerCase().replaceAll(" ", "-").replaceAll("/", "")}>
-            <div class="section-header">
-              <p class="eyebrow">{group}</p>
-              <h2>{group}</h2>
-            </div>
-            <div class="simulation-grid">
-              {simulationCases
-                .filter((item) => item.group === group)
-                .map((item) => (
-                  <article class="simulation-card">
-                    <LiteYouTube embedUrl={item.embedUrl} title={item.title} />
-                    <div class="simulation-copy">
-                      <p class="project-status">{item.model}</p>
-                      <h3>{item.title}</h3>
-                      <p>{item.note}</p>
-                    </div>
-                  </article>
-                ))}
-            </div>
-          </section>
-        ))
-      }
+      <div id="simulation-results">
+        {
+          simulationGroups.map((group) => (
+            <section class="simulation-group" data-simulation-group id={simulationGroupId(group)} aria-labelledby={`${simulationGroupId(group)}-heading`}>
+              <div class="section-header">
+                <p class="eyebrow">{group === "Tropical Band VVMex" ? "Featured experiments" : "Model collection"}</p>
+                <h2 id={`${simulationGroupId(group)}-heading`}>{group}</h2>
+                {group === "Tropical Band VVMex" && <p class="lead">A latitude–longitude tropical band: first with an SST perturbation, then with land representing the Maritime Continent.</p>}
+              </div>
+              <div class="simulation-grid">
+                {simulationCases.filter((item) => item.group === group).map((item, index) => <SimulationCard item={item} index={index + 1} />)}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+      <p id="search-empty" class="empty-state" hidden>No experiments match your search. Try “VVM”, “SST”, or “advection”.</p>
     </div>
   </section>
+  <script>
+    const searchPanel = document.getElementById("gallery-search");
+    const input = document.querySelector<HTMLInputElement>("#simulation-search");
+    const status = document.getElementById("search-count");
+    const empty = document.getElementById("search-empty");
+    const cards = [...document.querySelectorAll<HTMLElement>("[data-simulation]")];
+    const groups = [...document.querySelectorAll<HTMLElement>("[data-simulation-group]")];
+    if (searchPanel && input && status && empty) {
+      searchPanel.hidden = false;
+      const filter = () => {
+        const terms = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+        let count = 0;
+        cards.forEach((card) => {
+          card.hidden = !terms.every((term) => card.dataset.search?.includes(term));
+          if (!card.hidden) count++;
+        });
+        groups.forEach((group) => {
+          group.hidden = !group.querySelector("[data-simulation]:not([hidden])");
+        });
+        status.textContent = terms.length ? `${count} of ${cards.length} experiments match` : `Showing all ${cards.length} experiments`;
+        empty.hidden = count > 0;
+      };
+      input.addEventListener("input", filter);
+      // Category links always reveal their full collection, even after a search.
+      document.querySelectorAll(".gallery-nav a").forEach((link) => {
+        link.addEventListener("click", () => { input.value = ""; filter(); });
+      });
+      filter();
+    }
+  </script>
 </BaseLayout>

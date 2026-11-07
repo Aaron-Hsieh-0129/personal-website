@@ -1,0 +1,49 @@
+---
+import LiteYouTube from "./LiteYouTube.astro";
+import Icon from "./Icon.astro";
+import { simulationCases } from "@data/simulations";
+const cases = simulationCases.slice(0, 3);
+const labels = ["Tropical waves", "Maritime Continent", "Taiwan terrain"];
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<div class="experiment-viewer">
+  <div class="experiment-topline"><span><span class="status-dot" aria-hidden="true"></span>Featured simulations</span><span class="mono-label">SIMULATIONS</span></div>
+  <div class="experiment-stage">
+    {cases.map((item, index) => (
+      <div class="experiment-panel" id={`experiment-${item.id}`} data-experiment-panel hidden={index > 0}>
+        <div class="experiment-media-label"><span>Numerical experiment</span><span>{String(index + 1).padStart(2, "0")} / 03</span></div>
+        <LiteYouTube id={`hero-${item.id}`} embedUrl={item.embedUrl} title={item.title} priority={index === 0} />
+        <div class="experiment-caption"><p>{item.title}</p><a href={`${base}/simulations/#${index < 2 ? "tropical-band-vvm" : "vvmex"}`}>Explore experiment <Icon name="external" size={15} /></a></div>
+      </div>
+    ))}
+  </div>
+  <div class="experiment-options" role="group" aria-label="Choose a featured experiment" hidden>
+    {cases.map((item, index) => <button type="button" data-experiment-choice aria-controls={`experiment-${item.id}`} aria-pressed={index === 0 ? "true" : "false"}><span class="mono-label">{String(index + 1).padStart(2, "0")}</span>{labels[index]}</button>)}
+  </div>
+  <p class="experiment-footnote"><span class="decorative-cross" aria-hidden="true">+</span>Tropical-band VVM and VVMex experiments.</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".experiment-viewer").forEach((viewer) => {
+    const choices = [...viewer.querySelectorAll<HTMLButtonElement>("[data-experiment-choice]")];
+    const panels = [...viewer.querySelectorAll<HTMLElement>("[data-experiment-panel]")];
+    const options = viewer.querySelector<HTMLElement>(".experiment-options");
+    if (options) options.hidden = false;
+    choices.forEach((choice) => {
+      choice.addEventListener("click", () => {
+        choices.forEach((button) => button.setAttribute("aria-pressed", String(button === choice)));
+        panels.forEach((panel) => {
+          const selected = panel.id === choice.getAttribute("aria-controls");
+          const iframe = panel.querySelector("iframe");
+          if (!selected && iframe) {
+            const video = panel.querySelector<HTMLElement>("[data-lite-video]");
+            const template = panel.querySelector<HTMLTemplateElement>("template[data-video-poster]");
+            if (video && template) video.replaceChildren(template.content.cloneNode(true));
+          }
+          panel.hidden = !selected;
+        });
+      });
+    });
+  });
+</script>

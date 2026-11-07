@@ -1,32 +1,33 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { cvSections } from "@data/cv";
+const sectionId = (title: string) => title.toLowerCase().replaceAll(" ", "-");
 ---
 
 <BaseLayout title="CV" description="Curriculum vitae for Chin-Wei Aaron Hsieh.">
   <section class="page-title">
-    <div class="narrow">
-      <p class="eyebrow">CV</p>
+    <div class="container">
+      <p class="eyebrow">Academic background</p>
       <h1>Curriculum Vitae</h1>
-      <p class="lead">
-        Selected academic and research experience.
-      </p>
+      <p class="lead">Curriculum vitae — Chin-Wei (Aaron) Hsieh. Selected education, research experience, publications, and technical expertise.</p>
+      <p class="page-title-meta"><span class="status-dot" aria-hidden="true"></span>National Taiwan University · Atmospheric Sciences</p>
     </div>
   </section>
-  <section class="section compact">
-    <div class="narrow placeholder-list">
-      {
-        cvSections.map((section) => (
-          <section class="card" aria-labelledby={`${section.title.toLowerCase().replaceAll(" ", "-")}-heading`}>
-            <div class="card-body">
-              <h2 id={`${section.title.toLowerCase().replaceAll(" ", "-")}-heading`}>{section.title}</h2>
-              <ul>
-                {section.items.map((item) => <li>{item}</li>)}
-              </ul>
-            </div>
+  <section class="section">
+    <div class="container cv-layout">
+      <nav class="cv-index" aria-label="CV sections">
+        <p class="eyebrow">On this page</p>
+        {cvSections.map((section, index) => <a href={`#${sectionId(section.title)}`}><span>{String(index + 1).padStart(2, "0")}</span>{section.title}</a>)}
+      </nav>
+      <div>
+        {cvSections.map((section, index) => (
+          <section class="cv-section" id={sectionId(section.title)} aria-labelledby={`${sectionId(section.title)}-heading`}>
+            <p class="eyebrow">{String(index + 1).padStart(2, "0")} / Curriculum vitae</p>
+            <h2 id={`${sectionId(section.title)}-heading`}>{section.title}</h2>
+            <ul class="cv-items">{section.items.map((item) => <li>{item}</li>)}</ul>
           </section>
-        ))
-      }
+        ))}
+      </div>
     </div>
   </section>
 </BaseLayout>
